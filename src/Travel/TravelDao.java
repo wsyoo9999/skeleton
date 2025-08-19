@@ -5,28 +5,23 @@ import java.util.ArrayList;
 
 
 public class TravelDao {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/skel";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234";
+    private final String DB_URL;
+    private final String DB_USER;
+    private final String DB_PASSWORD;
     private PreparedStatement ps = null;
-    private Connection conn = null;
 
-    TravelDao() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Connected to database successfully");
+
+    TravelDao(String DB_URL, String DB_USER, String DB_PASSWORD) {
+        this.DB_URL = DB_URL;
+        this.DB_USER = DB_USER;
+        this.DB_PASSWORD = DB_PASSWORD;
     }
 
     ArrayList<TravelVo> executeQuery(String query) {
-        ResultSet rs = null;
         ArrayList<TravelVo> list = new ArrayList<>();
-        try {
-            Statement st = conn.createStatement();
-            rs = st.executeQuery(query);
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(query)){
             while (rs.next()) {
                 list.add(new TravelVo(  rs.getInt("no"),
                                         rs.getString("district"),
@@ -42,9 +37,4 @@ public class TravelDao {
         return list;
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        conn.close();
-        super.finalize();
-    }
 }
