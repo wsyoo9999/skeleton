@@ -1,25 +1,9 @@
 package Travel;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class TravelApp {
     public static void main(String[] args) {
-//        TravelDao doa =  new TravelDao("jdbc:mysql://localhost:3306/skel","root","1234");
-//        ArrayList<TravelVo> rs = null;
-//
-//        rs = doa.executeQuery("select * from travel where no between 1 and 10");
-//
-//        for (TravelVo r : rs) {
-//            String district = r.getDistrict();
-//            String title = r.getTitle();
-//            String description = r.getDescription();
-//            String address = r.getAddress();
-//            String phone = r.getPhone();
-//            System.out.println(district + " " + title + " " + description + " " + address + " " + phone);
-//        }
-
-
 
         try (Scanner scanner = new Scanner(System.in)) { // Scanner를 try-with-resources로 선언하여 자동으로 닫히게 설정
             TravelService ts = new  TravelService(scanner);
