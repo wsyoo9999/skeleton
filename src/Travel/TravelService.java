@@ -10,7 +10,7 @@ public class TravelService {
 
     TravelService(Scanner sc) {
         this.sc = sc;
-        dao =  new TravelDao("jdbc:mysql://localhost:3306/skel","root","1234");
+        dao = TravelDao.getTravelDao();
     }
 
     void printAllPage(){
@@ -48,7 +48,7 @@ public class TravelService {
                 if(page<lastPage){
                     page++;
                     start = start+5;
-                    end = end + 5 <=travels.size() ? end + 5 :travels.size();
+                    end = Math.min(end + 5, travels.size());
                 }
             }
             else if(c.equals("e")){
@@ -56,11 +56,21 @@ public class TravelService {
             }
         }
 
-
-
     }
 
     void printArea(){
+        System.out.println("어느 권역의 관광지를 보실건가요?");
+        ArrayList<String> districts = dao.getDistricts();
+        for(int i=0;i<districts.size();i++){
+            System.out.println( i+1 +". "+ districts.get(i));
+        }
+        int choice = sc.nextInt();
+        String[] query = {districts.get(choice-1)};
+        travels = dao.searchbyDistrict(query);
+        for(TravelVo travel : travels) {
+            System.out.println(travel);
+            System.out.println("=================================================");
+        }
 
     }
 
@@ -72,6 +82,7 @@ public class TravelService {
         System.out.print("Choose an option: ");
         int choice = sc.nextInt(); // 사용자로부터 메뉴 선택 입력 받음
         System.out.println("검색할 검색어를 입력해주세요, 공백으로 글자들을 구분하고 입력하신 검색어 중 하나라도 포함되어있는 결과가 출력됩니다");
+        sc.nextLine();
         String search = sc.nextLine();
         String[] str = search.split(" ");
 
@@ -88,6 +99,11 @@ public class TravelService {
             default:
                 System.out.println("Invalid choice. Try again."); // 잘못된 입력 메시지 출력
 
+        }
+
+        for(TravelVo travel : travels){
+            System.out.println(travel);
+            System.out.println("=================================================");
         }
     }
 

@@ -38,10 +38,10 @@ public class TravelVo {
     @Override
     public String toString() {
         String str = this.getNo()+"\n"+
-                    "권역 : "+this.getDistrict()+
-                    "위치 : " + this.getAddress()+
-                    "명칭 : " + this.getTitle()+
-                    "상세정보 : " + this.getDescription()+
+                    "권역 : "+this.getDistrict() +"\n"+
+                    "위치 : " + this.getAddress() +"\n"+
+                    "명칭 : " + this.getTitle() +"\n"+
+                    "상세정보 : " + this.getDescription() +"\n"+
                     "연락처 : " + this.getAddress();
         return str;
     }
