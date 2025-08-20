@@ -34,4 +34,15 @@ public class TravelVo {
     public String getPhone() {
         return phone;
     }
+
+    @Override
+    public String toString() {
+        String str = this.getNo()+"\n"+
+                    "권역 : "+this.getDistrict()+
+                    "위치 : " + this.getAddress()+
+                    "명칭 : " + this.getTitle()+
+                    "상세정보 : " + this.getDescription()+
+                    "연락처 : " + this.getAddress();
+        return str;
+    }
 }

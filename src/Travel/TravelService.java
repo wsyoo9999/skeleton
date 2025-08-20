@@ -14,20 +14,15 @@ public class TravelService {
     }
 
     void printAllPage(){
-        travels = dao.executeQuery("select * from travel where no between 1 and 20");
+        travels = dao.viewAll();
         int page = 1;
         int lastPage = travels.size()%5==0 ? travels.size()/5 : travels.size()/5+1;
         int start = 0;
-        int end = 5<travels.size() ? 5:travels.size();
+        int end = Math.min(5, travels.size());
         boolean flag = true;
         while(flag){
             for(int i=start;i<end;i++){
-                System.out.println(travels.get(i).getNo());
-                System.out.println("권역 : "+travels.get(i).getDistrict());
-                System.out.println("위치 : " + travels.get(i).getAddress());
-                System.out.println("명칭 : " + travels.get(i).getTitle());
-                System.out.println("상세정보 : " + travels.get(i).getDescription());
-                System.out.println("연락처 : " + travels.get(i).getAddress());
+                System.out.println(travels.get(i));
                 System.out.println("=================================================");
             }
             if(page==1){
@@ -69,8 +64,31 @@ public class TravelService {
 
     }
 
-    void printSearchResult(){
+    void printSearchResult() {
+        System.out.println("\n=== 검색기준 ===");
+        System.out.println("1. 권역");
+        System.out.println("2. 주소");
+        System.out.println("3. 관광지명");
+        System.out.print("Choose an option: ");
+        int choice = sc.nextInt(); // 사용자로부터 메뉴 선택 입력 받음
+        System.out.println("검색할 검색어를 입력해주세요, 공백으로 글자들을 구분하고 입력하신 검색어 중 하나라도 포함되어있는 결과가 출력됩니다");
+        String search = sc.nextLine();
+        String[] str = search.split(" ");
 
+        switch (choice) { // 선택한 옵션에 따라 동작 분기
+            case 1:
+                travels = dao.searchbyDistrict(str);
+                break;
+            case 2:
+                travels = dao.searchbyAddress(str);
+                break;
+            case 3:
+                travels = dao.searchbyTitle(str);
+                break;
+            default:
+                System.out.println("Invalid choice. Try again."); // 잘못된 입력 메시지 출력
+
+        }
     }
 
 }
